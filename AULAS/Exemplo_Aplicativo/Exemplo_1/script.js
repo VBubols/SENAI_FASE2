@@ -1,4 +1,10 @@
-const _listaDeUsuarios = []
+let _listaDeUsuarios = []
+
+if(localStorage.usuarios){
+    _listaDeUsuarios = JSON.parse(localStorage.getItem('usuarios'))
+}
+
+localStorage.usuarios = JSON.stringify(_listaDeUsuarios)
 
 function enviar() {
     const nome = String(document.getElementById('nome').value)
@@ -18,7 +24,6 @@ function enviar() {
 
     _listaDeUsuarios.push(obj)
     localStorage.setItem('usuarios', JSON.stringify(_listaDeUsuarios))
-
     console.log(_listaDeUsuarios)
 }
 
