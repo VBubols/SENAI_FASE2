@@ -1,0 +1,12 @@
+.titulo {
+    display: flex;
+    justify-content: center;
+    background-color: greenyellow;
+    font-size: medium;
+    font-weight: bolder;
+}
+
+.imagem{
+    display: flex;
+    justify-content: center;
+}

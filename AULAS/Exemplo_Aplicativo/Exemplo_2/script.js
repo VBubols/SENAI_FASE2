@@ -4,7 +4,7 @@ if(localStorage.usuarios){
     _listaDeUsuarios = JSON.parse(localStorage.getItem('usuarios'))
 }
 
-localStorage.usuarios = JSON.stringify(_listaDeUsuarios)
+localStorage.setItem('usuarios', JSON.stringify(_listaDeUsuarios))
 
 function cadastrar() {
     const nome = String(document.getElementById('nome').value)
@@ -27,16 +27,20 @@ function cadastrar() {
     console.log(_listaDeUsuarios)
 }
 
+function verificarUsuario(nome, senha){
+    let usuarioExiste = _listaDeUsuarios.find(x => x.nome === nome && x.senha === senha)
+    return usuarioExiste
+}
+
 function login(){
     const nome = String(document.getElementById('nome').value)
     const senha = String(document.getElementById('senha').value)
 
-    let usuario = _listaDeUsuarios.find(x => x.nome === nome && x.senha === senha)
+    let usuarioExiste = verificarUsuario(nome, senha)
 
-    console.log(usuario)
-
-    if(usuario){
+    if(usuarioExiste){
         alert("Usuário autenticado!")
+        window.location.href = './home.html'
         return
     } else{
         alert("Usuário ou senha inválidos")
@@ -59,19 +63,29 @@ function deletarUsuario(){
     }
 }
 
-// function login(){
-//     const nome = String(document.getElementById('nome').value)
-//     const senha = String(document.getElementById('senha').value)
+async function perguntar(){
+    let apiKey = 'AIzaSyCAqB8STdN_x_LZB1DalDtHoQ_aSjmLY-0'
 
-//     for(const index in _listaDeUsuarios){
-//         const usuario = _listaDeUsuarios[index].nome
-//         const senha_usuario = _listaDeUsuarios[index].senha
+    let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`
 
-//         if(usuario == nome && senha_usuario == senha){
-//             alert("Usuário autenticado!")
-//             return
-//         }
-//     }
-//     alert("Usuário ou senha inválidos!")
-    
-// }
+    let resposta = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            "contents": [
+              {
+                "parts": [
+                  {
+                    "text": "Faça uma piada"
+                  }
+                ]
+              }
+            ]
+          })
+    });
+
+    const info = await resposta.json()
+    const text = info.candidates[0].content.parts[0].text;
+    alert(text)
+    console.log(info)
+}
