@@ -64,7 +64,7 @@ function deletarUsuario(){
 }
 
 async function perguntar(){
-    let apiKey = 'AIzaSyCAqB8STdN_x_LZB1DalDtHoQ_aSjmLY-0'
+    let apiKey = ''
 
     let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`
 
