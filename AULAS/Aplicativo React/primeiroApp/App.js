@@ -19,21 +19,29 @@ export default function App() {
   const calcMul = () => {
     setResultado(parseFloat(primeiroNumero) * parseFloat(segundoNumero))
   }  
+
+  //Variaveis e funções do Gemini
+  const [pergunta, setPergunta] = useState('')
+
+
   return (
     <View style={styles.container}>
       <Text>
-        Calculadora {resultado}
+        Calculadora
       </Text>
-
+      <Text style={styles.input}>{resultado}</Text>
       <TextInput placeholder='Digite o primeiro número' style={styles.input} onChangeText={setPrimeiroNumero}></TextInput>
       <TextInput placeholder='Digite o segundo número' style={styles.input} onChangeText={setSegundoNumero}></TextInput>
 
       <View style={styles.divBotoes}>
-        <Button onPress={calcSoma} title='+' style={styles.botoes}></Button>
-        <Button onPress={calcSub} title='-' style={styles.botoes}></Button>
-        <Button onPress={calcDiv} title='/' style={styles.botoes}></Button>
-        <Button onPress={calcMul} title='*' style={styles.botoes}></Button>
+        <Button onPress={calcSoma} title='+'></Button>
+        <Button onPress={calcSub} title='-'></Button>
+        <Button onPress={calcDiv} title='/'></Button>
+        <Button onPress={calcMul} title='*'></Button>
       </View>
+
+      <TextInput placeholder='Faça uma pergunta ao gemini' style={styles.inputGemini} onChangeText={setPergunta}></TextInput>
+      <Button title='Faça a pergunta'></Button>
       <StatusBar style="auto" />
     </View>
   );
@@ -52,14 +60,19 @@ const styles = StyleSheet.create({
     color: '#fff',
     backgroundColor: '#333'
   },
+  inputGemini: {
+    padding: 15,
+    margin: 2,
+    width: 300,
+    textAlign: 'center',
+    color: '#fff',
+    backgroundColor: '#333'
+  },
   divBotoes: {
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 10,
     gap: 10,
     width: '100%'
-  },
-  botoes: {
-    margin: 5
   }
 });
