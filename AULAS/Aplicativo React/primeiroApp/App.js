@@ -22,7 +22,7 @@ export default function App() {
 
   //Variaveis e funções do Gemini
   const [pergunta, setPergunta] = useState('')
-
+  
 
   return (
     <View style={styles.container}>
