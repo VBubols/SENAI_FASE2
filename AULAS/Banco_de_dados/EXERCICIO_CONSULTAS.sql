@@ -128,25 +128,60 @@
 -- Exercícios - Subconsultas
 
 -- 1. O nome dos clientes que moram na mesma cidade do Manoel. Não deve ser mostrado o Manoel.
-
+-- SELECT NOME
+-- FROM CLIENTE
+-- WHERE MUNICIPIO = (
+-- 	SELECT MUNICIPIO
+-- 	FROM CLIENTE
+-- 	WHERE NOME = 'Manoel'
+-- )
+-- AND NOT NOME = 'Manoel'
 
 -- 2. A data e o valor dos pedidos que o valor do pedido seja menor que a média de todos os pedidos.
-
+-- SELECT DATA_PEDIDO, VALOR
+-- FROM PEDIDO
+-- WHERE VALOR < (
+-- 	SELECT AVG(VALOR)
+-- 	FROM PEDIDO
+-- )
 
 -- 3. A data, o valor, o cliente e o vendedor dos pedidos que possuem 2 ou mais produtos.
-
+-- SELECT DATA_PEDIDO, VALOR, IDCLIENTE, IDVENDEDOR
+-- FROM PEDIDO
+-- WHERE IDPEDIDO IN (
+-- 	SELECT IDPEDIDO
+-- 	FROM ITEM_PEDIDO
+-- 	GROUP BY IDPEDIDO
+-- 	HAVING COUNT(*) >= 2
+-- ) 
+-- ORDER BY DATA_PEDIDO
 
 -- 4. O nome dos clientes que moram na mesma cidade da transportadora BSTransportes.
-
+-- SELECT NOME
+-- FROM CLIENTE
+-- WHERE MUNICIPIO IN (
+-- 	SELECT MUNICIPIO
+-- 	FROM TRANSPORTADORA
+-- 	WHERE NOME_TRANSP = 'BS. Transportes'
+-- )
 
 -- 5. O nome do cliente e o município dos clientes que estão localizados no mesmo município de qualquer uma das transportadoras.
-
+-- SELECT NOME, MUNICIPIO
+-- FROM CLIENTE
+-- WHERE MUNICIPIO IN (
+-- 	SELECT MUNICIPIO
+-- 	FROM TRANSPORTADORA
+-- )
 
 -- 6. Atualizar o valor do pedido em 5% para os pedidos que o somatório do valor total dos produtos daquele pedido seja maior que a média do valor total dos produtos de todos os pedidos.
 
 
 -- 7. O nome do cliente e a quantidade de pedidos feitos pelo cliente.
-
+SELECT NOME,(
+	SELECT COUNT(*)
+	FROM PEDIDO P
+	WHERE P.IDCLIENTE = C.IDCLIENTE) AS PEDIDOS_FEITOS
+FROM CLIENTE C
 
 -- 8. Para revisar, refaça o exercício anterior (número 07) utilizando GROUP BY e mostrando somente os clientes que fizeram pelo menos um pedido.
 
