@@ -174,14 +174,35 @@
 -- )
 
 -- 6. Atualizar o valor do pedido em 5% para os pedidos que o somatório do valor total dos produtos daquele pedido seja maior que a média do valor total dos produtos de todos os pedidos.
-
+-- UPDATE PEDIDO
+-- SET VALOR = VALOR * 1.05
+-- WHERE IDPEDIDO IN (
+--     SELECT I.IDPEDIDO
+--     FROM ITEM_PEDIDO I
+--     JOIN PRODUTO PR ON I.IDPRODUTO = PR.IDPRODUTO
+--     GROUP BY I.IDPEDIDO
+--     HAVING SUM(I.QUANTIDADE * PR.VALOR_UNITARIO) > (
+--         SELECT AVG(SOMA_TOTAL)
+--         FROM (
+--             SELECT SUM(I2.QUANTIDADE * PR2.VALOR_UNITARIO) AS SOMA_TOTAL
+--             FROM ITEM_PEDIDO I2
+--             JOIN PRODUTO PR2 ON I2.IDPRODUTO = PR2.IDPRODUTO
+--             GROUP BY I2.IDPEDIDO
+--         ) AS MEDIA_PEDIDOS
+--     )
+-- );
 
 -- 7. O nome do cliente e a quantidade de pedidos feitos pelo cliente.
-SELECT NOME,(
-	SELECT COUNT(*)
-	FROM PEDIDO P
-	WHERE P.IDCLIENTE = C.IDCLIENTE) AS PEDIDOS_FEITOS
-FROM CLIENTE C
+-- SELECT NOME,(
+-- 	SELECT COUNT(*)
+-- 	FROM PEDIDO P
+-- 	WHERE P.IDCLIENTE = C.IDCLIENTE) AS PEDIDOS_FEITOS
+-- FROM CLIENTE C
 
 -- 8. Para revisar, refaça o exercício anterior (número 07) utilizando GROUP BY e mostrando somente os clientes que fizeram pelo menos um pedido.
+-- SELECT C.NOME, COUNT(P.IDPEDIDO) AS PEDIDOS_FEITOS
+-- FROM CLIENTE C
+-- JOIN PEDIDO P ON C.IDCLIENTE = P.IDCLIENTE
+-- GROUP BY C.NOME
+-- HAVING COUNT(P.IDPEDIDO) >= 1;
 
