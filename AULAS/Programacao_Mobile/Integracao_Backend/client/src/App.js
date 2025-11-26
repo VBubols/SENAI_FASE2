@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 import Axios from 'axios';
@@ -29,13 +28,58 @@ function App(){
   });
   };
 
+  const update = () => {
+
+    Axios.put("http://localhost:3001/update",{
+    id:id,
+    nome:nome,
+    idade:idade,
+    pais:pais,
+    cargo:cargo,
+    anos:anos
+  }).then(()=>{
+    getEmpregado();
+    alert("Atualizado!!!");
+    limparCampos();
+  });
+}
+
+const deleteEmpregado = (id) => {
+
+  Axios.delete(`http://localhost:3001/delete/${id}`).then(()=>{
+  getEmpregado();
+  alert("Eliminado!!!");
+  limparCampos();
+});
+}
+
   const getEmpregado = () => {
-    Axios.get("http://localhost:3001/create").then((response)=>{
+    Axios.get("http://localhost:3001/empregado").then((response)=>{
       setEmpregadoList(response.data);
     });
   };
 
   getEmpregado();
+
+  const limparCampos = () => {
+    setId(0);
+    setNome('');
+    setIdade(0);
+    setPais('');
+    setCargo('');
+    setAnos(0);
+    setEditar(false);
+  };
+
+  const editarEmpregado = (val)=> {
+    setEditar(true);
+    setNome(val.nome);
+    setIdade(val.idade);
+    setPais(val.pais);
+    setCargo(val.cargo);
+    setAnos(val.anos);
+    setId(val.id);
+  }
 
   return(
     <div className="container">
@@ -82,12 +126,12 @@ function App(){
       </div>
 
       <div className="input-group mb-3">
-       <span className="input-group-text" id="basic-addon1">ExperiÃªncia em Anos:</span>
+       <span className="input-group-text" id="basic-addon1">Experiência em Anos:</span>
        <input type="number" value={anos}     
        onChange={(event)=>{
         setAnos(event.target.value);
       }}
-       className="form-control" placeholder="Escreva anos de experiÃªncia " aria-label="Username" aria-describedby="basic-addon1"/>
+       className="form-control" placeholder="Escreva anos de experiência " aria-label="Username" aria-describedby="basic-addon1"/>
       </div>
           
     </div>
